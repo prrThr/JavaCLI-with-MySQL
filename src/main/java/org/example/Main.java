@@ -10,6 +10,6 @@ public class Main {
         Statement statement = connection.createStatement();
 
         SelectAll selectAll = new SelectAll();
-        selectAll.Consulta(connection, statement, "Pagador");
+        selectAll.Consulta(connection, statement, "Unidade");
     }
 }
