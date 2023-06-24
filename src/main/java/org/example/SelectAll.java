@@ -1,5 +1,8 @@
 package org.example;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -14,7 +17,6 @@ public class SelectAll {
                     " as nomePagador, Pagamento.idUnidade, Pagamento.idPagamento, Pagamento.dataPagamento, Pagamento.comprovante, " +
                     "Pagamento.dataRegistro FROM Pagamento JOIN Pagador ON Pagamento.idPagador = Pagador.rg ORDER BY " +
                     "Pagamento.anoReferencia, Pagamento.mesReferencia");
-
             while (rs.next()){
                 System.out.println(rs.getInt(1) + " "+ rs.getInt(2)+ " " +
                         rs.getString(3) + " " + rs.getInt(4) + " " + rs.getInt(5) +

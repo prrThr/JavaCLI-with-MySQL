@@ -1,7 +1,5 @@
 package org.example;
-// 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
-import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
@@ -60,7 +58,10 @@ public class Main {
                     int anoReferencia = s.nextInt();
                     System.out.println("Informe o mes de referencia do pagamento: ");
                     int mesRereferncia = s.nextInt();
-                    insert.insert_Pagamento(connection, idPagador, idUnidade, novaData, anoReferencia, mesRereferncia);
+                    s.nextLine();
+                    System.out.println("Insira o comprovante (nome do arquivo): ");
+                    String comprovante = s.nextLine();
+                    insert.insert_Pagamento(connection, idPagador, idUnidade, novaData, comprovante, anoReferencia, mesRereferncia);
                     System.out.println("Pagamento inserido!");
                 }
                 case 2 -> selectall.ConsultaPagamento(statement);
@@ -74,17 +75,7 @@ public class Main {
                 case 4 -> {// Baixar o blob da tabela de pagamento. A tabela de pagamento precisa ter um campo de Id. Conferir depois
                     System.out.println("Informe o código do pagamento:");
                     int idPagamento = s.nextInt();
-                    PreparedStatement ps = connection.prepareStatement("select comprovante from Pagamento where idPagamento=?");
-                    ps.setInt(1, idPagamento);
-                    ResultSet rs = ps.executeQuery();
-                    while (rs.next()) {
-                        Blob blob = rs.getBlob("picture");
-                        byte[] dados = blob.getBytes(1, (int) blob.length());
-                        File f = new File("aqui vai o path");
-                        FileOutputStream fos = new FileOutputStream(f);
-                        fos.write(dados);
-                        fos.close();
-                    }
+                    Blob.download(connection, idPagamento, "blobbaixado.pdf");
                 }
                 case 5 -> {
                     s.nextLine();

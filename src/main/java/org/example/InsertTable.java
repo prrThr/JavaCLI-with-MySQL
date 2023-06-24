@@ -1,9 +1,9 @@
 package org.example;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.*;
 
 public class InsertTable {
 
@@ -27,18 +27,30 @@ public class InsertTable {
         callableStatement.close();
     }
 
-    public void insert_Pagamento(Connection connection, int idPagador, int idUnidade, Date data, int anoReferencia, int mesReferencia) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall("{call insere_Pagamento(?, ?, ?, ?, ?)}");
+    public void insert_Pagamento(Connection connection, int idPagador,int idUnidade, Date data, String comprovante,
+                                 int anoReferencia, int mesReferencia) {
+        try (PreparedStatement callableStatement =
+                     connection.prepareStatement("insert into Pagamento(idPagador, idUnidade, dataPagamento, comprovante, anoReferencia, mesReferencia) values " +
+                             "    (?, ?, ?, ?, ?, ?);")){
+            callableStatement.setInt(1, idPagador);
+            callableStatement.setInt(2, idUnidade);
+            callableStatement.setDate(3, data);
 
-        callableStatement.setInt(1, idPagador);
-        callableStatement.setInt(2, idUnidade);
-        callableStatement.setDate(3, data);
-        callableStatement.setInt(4, anoReferencia);
-        callableStatement.setInt(5, mesReferencia);
+            //File file = new File(comprovante);
+            FileInputStream input = new FileInputStream("/home/arthur/IdeaProjects/m3bancodedados/arquivo.pdf");
+            callableStatement.setBlob(4, input);
+            //System.out.println("Lendo arquivo " + file.getAbsolutePath());
+            //System.out.println("Arquivo armazenado no banco de dados");
 
+            callableStatement.setInt(5, anoReferencia);
+            callableStatement.setInt(6, mesReferencia);
 
-        callableStatement.execute();
-        callableStatement.close();
+            //callableStatement.executeUpdate();
+            callableStatement.execute();
+            //callableStatement.close();
+        } catch (SQLException | FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
