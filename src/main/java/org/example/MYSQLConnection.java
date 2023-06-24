@@ -8,7 +8,7 @@ public class MYSQLConnection {
     public Connection conectaBD() throws SQLException, ClassNotFoundException {
         String url = "jdbc:mysql://localhost:3306/M3?useSSL=false&serverTimezone=UTC";
         String user = "root";
-        String passwd = "galinha20";
+        String passwd = "pw";
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(url, user, passwd);
     }

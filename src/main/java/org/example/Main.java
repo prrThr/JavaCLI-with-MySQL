@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
+// TODO: Testar delete, criar usuário padrão, ?
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         Connection connection = new MYSQLConnection().conectaBD();
@@ -17,33 +18,33 @@ public class Main {
         deleteLine deleteline = new deleteLine();
         int opc = 0;
 
-        while(opc != 11) {
-        System.out.println("------Menu------");
-        System.out.println("1. Inserir novo registro de Pagamento");
-        System.out.println("2. Listar todos os registros de Pagamento");
-        System.out.println("3. Excluir registro de Pagamento");
-        System.out.println("4. Baixar comprovante de Pagamento");
-        System.out.println("5. Inserir novo registro de Pagador");
-        System.out.println("6. Listar todos os registros de Pagador");
-        System.out.println("7. Excluir registro de Pagador");
-        System.out.println("8. Inserir novo registro de Unidade");
-        System.out.println("9. Listar todos os registros de Unidade");
-        System.out.println("10. Excluir registro de Unidade");
-        System.out.println("11. Sair");
-        System.out.println("Escolha uma opção: ");
-        opc = s.nextInt();
+        while (opc != 11) {
+            System.out.println("------Menu------");
+            System.out.println("1. Inserir novo registro de Pagamento");
+            System.out.println("2. Listar todos os registros de Pagamento");
+            System.out.println("3. Excluir registro de Pagamento");
+            System.out.println("4. Baixar comprovante de Pagamento");
+            System.out.println("5. Inserir novo registro de Pagador");
+            System.out.println("6. Listar todos os registros de Pagador");
+            System.out.println("7. Excluir registro de Pagador");
+            System.out.println("8. Inserir novo registro de Unidade");
+            System.out.println("9. Listar todos os registros de Unidade");
+            System.out.println("10. Excluir registro de Unidade");
+            System.out.println("11. Sair");
+            System.out.println("Escolha uma opção: ");
+            opc = s.nextInt();
 
             switch (opc) {
-                case 1 -> {// Falta ver como inserir o blob por aqui
+                case 1 -> {
                     System.out.println("Informe o id do Pagador: ");
                     int idPagador = s.nextInt();
                     System.out.println("Informe o id da Unidade: ");
                     int idUnidade = s.nextInt();
                     s.nextLine();
-                    System.out.println("Informe a data do Pagamento (yyyy-MM-dd): ");
+                    System.out.println("Informe a data do Pagamento (YYYY-MM-DD): ");
                     String data = s.nextLine();
 
-                    //transforma a String data em DateSql
+                    // Transforma a String data em DateSQL
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     java.util.Date utilDate;
                     Date novaData = null;
@@ -52,7 +53,7 @@ public class Main {
                         novaData = new Date(utilDate.getTime());
                         System.out.println("Data lida: " + novaData);
                     } catch (ParseException e) {
-                        System.out.println("Formato de data inválido.");
+                        System.out.println("Formato de data inválido. \n" + e);
                     }
                     System.out.println("Informe o ano de referencia do pagamento: ");
                     int anoReferencia = s.nextInt();
@@ -72,7 +73,7 @@ public class Main {
                     deleteline.delete_Pagamento(connection, deleteId1);
                     System.out.println("Pagamento excluído!");
                 }
-                case 4 -> {// Baixar o blob da tabela de pagamento. A tabela de pagamento precisa ter um campo de Id. Conferir depois
+                case 4 -> {
                     System.out.println("Informe o código do pagamento:");
                     int idPagamento = s.nextInt();
                     Blob.download(connection, idPagamento, "blobbaixado.pdf");
