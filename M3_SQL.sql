@@ -20,20 +20,23 @@ CREATE TABLE IF NOT EXISTS Pagamento (
     FOREIGN KEY (idUnidade) REFERENCES Unidade (id),
     idPagamento INT AUTO_INCREMENT PRIMARY KEY,
     dataPagamento date,
-    comprovante BLOB,
+    comprovante MEDIUMBLOB,
     anoReferencia INT,
     mesReferencia INT,
     dataRegistro date
 );
 
-/* Trigger RNF06 */
+-- Trigger RNF06 -------------------------------------------------------------------------------------------------------
+
 delimiter $
-CREATE TRIGGER insert_date BEFORE insert on pagamento
+CREATE TRIGGER insert_date BEFORE insert on Pagamento
 FOR EACH ROW BEGIN
 	SET NEW.dataRegistro = now();
 END$
 delimiter ;
 
+
+-- INSERTS -------------------------------------------------------------------------------------------------------------
 INSERT INTO Pagador(nomeCompleto, email, tel) VALUES
 ("Arthur Pereira", "arthur@gmail.com", "912345678"),
 ("Cleber Oliveira", "cleber@protonmail.com", "987651234");
@@ -48,12 +51,14 @@ INSERT INTO Pagamento(idPagador, idUnidade, dataPagamento, anoReferencia, mesRef
 ("1", "1", "2021-06-20", "2021", "6"),
 ("2", "2", "2022-01-01", "2022", "1");
 
-/* RF5 */
+
+-- RF5 --------------------------------------------------------------------------------------------------
 SELECT Pagamento.anoReferencia, pagamento.mesReferencia, pagador.nomeCompleto as nomePagador, pagamento.idUnidade, pagamento.idPagamento, pagamento.dataPagamento, pagamento.comprovante, pagamento.dataRegistro
 FROM Pagamento
 JOIN Pagador ON pagamento.idPagador = pagador.rg
 ORDER BY pagamento.anoReferencia, pagamento.mesReferencia;
 
+-- PROCERUES ----------------------------------------------------------------------------------------------
 delimiter $
 create procedure insere_Pagador(in nome varchar(50), email varchar(50), telefone varchar(9))
 begin
@@ -99,7 +104,7 @@ begin
 END$
 delimiter ;
 
-/* Testes */ 
+-- Testes ------------------------------------------------------------------------------------------------------- 
 CALL insere_Pagador("Para Excluir", "excluir@gmail.com", "998462215");
 CALL insere_Unidade("Apartamento 503");
 CALL insere_Pagamento("5", "1", "2023-06-23", "2023", "6");
