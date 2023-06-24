@@ -4,6 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class InsertTable {
 
@@ -28,10 +35,9 @@ public class InsertTable {
     }
 
     public void insert_Pagamento(Connection connection, int idPagador,int idUnidade, Date data, String comprovante,
-                                 int anoReferencia, int mesReferencia) {
-        try (PreparedStatement callableStatement =
-                     connection.prepareStatement("insert into Pagamento(idPagador, idUnidade, dataPagamento, comprovante, anoReferencia, mesReferencia) values " +
-                             "    (?, ?, ?, ?, ?, ?);")){
+                                 int anoReferencia, int mesReferencia) throws SQLException, FileNotFoundException {
+        String query = "{call insere_Pagamento(?, ?, ?, ?, ?, ?)}";
+        CallableStatement callableStatement = connection.prepareCall(query);
             callableStatement.setInt(1, idPagador);
             callableStatement.setInt(2, idUnidade);
             callableStatement.setDate(3, data);
@@ -48,9 +54,6 @@ public class InsertTable {
             //callableStatement.executeUpdate();
             callableStatement.execute();
             //callableStatement.close();
-        } catch (SQLException | FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
     }
 }
 
