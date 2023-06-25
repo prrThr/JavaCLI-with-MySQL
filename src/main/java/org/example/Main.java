@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-// TODO: Testar delete, criar usuário padrão, ?
+// TODO: Testar delete (ok) | Retornar ao menu caso o path do arquivo esteja errado (x) | criar usuário padrão ()
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         Connection connection = new MYSQLConnection().conectaBD();
@@ -63,7 +63,6 @@ public class Main {
                     System.out.println("Insira o comprovante (nome do arquivo): ");
                     String comprovante = s.nextLine();
                     insert.insert_Pagamento(connection, idPagador, idUnidade, novaData, comprovante, anoReferencia, mesRereferncia);
-                    System.out.println("Pagamento inserido!");
                 }
                 case 2 -> selectall.ConsultaPagamento(statement);
                 case 3 -> {

@@ -76,10 +76,10 @@ END$
 delimiter ;
 
 delimiter $
-create procedure insere_Pagamento(in idPagador int, in idUnidade int, in dataPagamento date, in anoReferencia int, in mesReferencia int)
+create procedure insere_Pagamento(in idPagador int, in idUnidade int, in dataPagamento date, in comprovante mediumblob, in anoReferencia int, in mesReferencia int)
 begin
-	insert into Pagamento(idPagador, idUnidade, dataPagamento, anoReferencia, mesReferencia) values
-    (idPagador, idUnidade, dataPagamento, anoReferencia, mesReferencia);
+    insert into Pagamento(idPagador, idUnidade, dataPagamento, comprovante, anoReferencia, mesReferencia) values
+        (idPagador, idUnidade, dataPagamento, comprovante, anoReferencia, mesReferencia);
 END$
 delimiter ;
 

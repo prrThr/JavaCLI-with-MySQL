@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.CallableStatement;
@@ -37,17 +38,21 @@ public class InsertTable {
         String query = "{call insere_Pagamento(?, ?, ?, ?, ?, ?)}";
         CallableStatement callableStatement = connection.prepareCall(query);
 
-        callableStatement.setInt(1, idPagador);
-        callableStatement.setInt(2, idUnidade);
-        callableStatement.setDate(3, data);
-
-        FileInputStream input = new FileInputStream(filepath);
-        callableStatement.setBlob(4, input);
-
-        callableStatement.setInt(5, anoReferencia);
-        callableStatement.setInt(6, mesReferencia);
-
-        callableStatement.execute();
+        try (FileInputStream input = new FileInputStream(filepath)){
+            callableStatement.setInt(1, idPagador);
+            callableStatement.setInt(2, idUnidade);
+            callableStatement.setDate(3, data);
+            callableStatement.setBlob(4, input);
+            callableStatement.setInt(5, anoReferencia);
+            callableStatement.setInt(6, mesReferencia);
+            System.out.println("Pagamento inserido!");
+            callableStatement.execute();
+        } catch (FileNotFoundException e) {
+            System.out.println("O caminho do arquivo não existe.");
+            System.out.println("Tente novamente.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
