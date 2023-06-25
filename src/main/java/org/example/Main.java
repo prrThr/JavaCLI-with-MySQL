@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-// TODO: Testar delete (ok) | Retornar ao menu caso o path do arquivo esteja errado (x) | criar usuário padrão ()
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         Connection connection = new MYSQLConnection().conectaBD();
@@ -41,6 +40,7 @@ public class Main {
                     System.out.println("Informe o id da Unidade: ");
                     int idUnidade = s.nextInt();
                     s.nextLine();
+
                     System.out.println("Informe a data do Pagamento (YYYY-MM-DD): ");
                     String data = s.nextLine();
 
@@ -60,7 +60,7 @@ public class Main {
                     System.out.println("Informe o mes de referencia do pagamento: ");
                     int mesRereferncia = s.nextInt();
                     s.nextLine();
-                    System.out.println("Insira o comprovante (nome do arquivo): ");
+                    System.out.println("Insira o comprovante: ");
                     String comprovante = s.nextLine();
                     insert.insert_Pagamento(connection, idPagador, idUnidade, novaData, comprovante, anoReferencia, mesRereferncia);
                 }

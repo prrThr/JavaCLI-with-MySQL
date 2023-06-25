@@ -1,5 +1,9 @@
+-- CRIANDO DATABASE ----------------------------------------------------------------------------------------------------
+
 CREATE DATABASE IF NOT EXISTS M3;
 USE M3;
+
+-- DDL -----------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS Pagador (
 	rg INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,6 +30,13 @@ CREATE TABLE IF NOT EXISTS Pagamento (
     dataRegistro date
 );
 
+-- CRIANDO UM USUÁRIO PADRÃO -------------------------------------------------------------------------------------------
+
+CREATE USER 'padrao'@'localhost' IDENTIFIED BY 'tHs152A#';
+GRANT ALL PRIVILEGES ON M3.* TO 'padrao'@'localhost';
+# SHOW GRANTS FOR 'padrao'@'localhost';
+FLUSH PRIVILEGES;
+
 -- Trigger RNF06 -------------------------------------------------------------------------------------------------------
 
 delimiter $
@@ -34,7 +45,6 @@ FOR EACH ROW BEGIN
 	SET NEW.dataRegistro = now();
 END$
 delimiter ;
-
 
 -- INSERTS -------------------------------------------------------------------------------------------------------------
 INSERT INTO Pagador(nomeCompleto, email, tel) VALUES
@@ -45,20 +55,16 @@ INSERT INTO Unidade(localizacao) VALUES
 ("Apartamento 101"),
 ("Apartamento 502");
 
+# As seguintes inserções NÃO teram arquivo BLOB
+# Inserções com arquivos devem ser feitas durante a execução do programa
 INSERT INTO Pagamento(idPagador, idUnidade, dataPagamento, anoReferencia, mesReferencia) VALUES
 ("1", "1", "2023-05-20", "2023", "5"),
 ("2", "2", "2023-04-01", "2023", "4"),
 ("1", "1", "2021-06-20", "2021", "6"),
 ("2", "2", "2022-01-01", "2022", "1");
 
+-- PROCEDURES ---------------------------------------------------------------------------------------------
 
--- RF5 --------------------------------------------------------------------------------------------------
-SELECT Pagamento.anoReferencia, pagamento.mesReferencia, pagador.nomeCompleto as nomePagador, pagamento.idUnidade, pagamento.idPagamento, pagamento.dataPagamento, pagamento.comprovante, pagamento.dataRegistro
-FROM Pagamento
-JOIN Pagador ON pagamento.idPagador = pagador.rg
-ORDER BY pagamento.anoReferencia, pagamento.mesReferencia;
-
--- PROCERUES ----------------------------------------------------------------------------------------------
 delimiter $
 create procedure insere_Pagador(in nome varchar(50), email varchar(50), telefone varchar(9))
 begin
@@ -104,6 +110,12 @@ begin
 END$
 delimiter ;
 
+/*-- RF5 -----------------------------------------------------------------------------------------------------------------
+SELECT Pagamento.anoReferencia, pagamento.mesReferencia, pagador.nomeCompleto as nomePagador, pagamento.idUnidade, pagamento.idPagamento, pagamento.dataPagamento, pagamento.comprovante, pagamento.dataRegistro
+FROM Pagamento
+JOIN Pagador ON pagamento.idPagador = pagador.rg
+ORDER BY pagamento.anoReferencia, pagamento.mesReferencia;
+
 -- Testes ------------------------------------------------------------------------------------------------------- 
 CALL insere_Pagador("Para Excluir", "excluir@gmail.com", "998462215");
 CALL insere_Unidade("Apartamento 503");
@@ -114,4 +126,4 @@ CALL delete_Pagamento(8);
 
 select * from Pagamento;
 select * from Pagador;
-select * from Unidade;
+select * from Unidade;*/
