@@ -9,4 +9,4 @@
 * Arthur de Oliveira Pereira
 * Arthur Manoel da Maia<br>
 
-[Link do projeto GitHub](https://github.com/prrThr/m3bancodedados)
+[Homepage](https://github.com/prrThr/JavaCLI-with-MySQL)
