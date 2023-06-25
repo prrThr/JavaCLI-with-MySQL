@@ -55,7 +55,7 @@ INSERT INTO Unidade(localizacao) VALUES
 ("Apartamento 101"),
 ("Apartamento 502");
 
-# As seguintes inserções NÃO teram arquivo BLOB
+# As seguintes inserções NÃO terão arquivo BLOB
 # Inserções com arquivos devem ser feitas durante a execução do programa
 INSERT INTO Pagamento(idPagador, idUnidade, dataPagamento, anoReferencia, mesReferencia) VALUES
 ("1", "1", "2023-05-20", "2023", "5"),
