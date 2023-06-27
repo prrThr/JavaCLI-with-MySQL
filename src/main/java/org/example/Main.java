@@ -1,13 +1,12 @@
 package org.example;
 
-import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Connection connection = new MYSQLConnection().conectaBD();
         Statement statement = connection.createStatement();
 
@@ -51,7 +50,6 @@ public class Main {
                     try {
                         utilDate = dateFormat.parse(data);
                         novaData = new Date(utilDate.getTime());
-                        System.out.println("Data lida: " + novaData);
                     } catch (ParseException e) {
                         System.out.println("Formato de data inválido. \n" + e);
                     }

@@ -33,7 +33,7 @@ public class InsertTable {
     }
 
     public void insert_Pagamento(Connection connection, int idPagador, int idUnidade, Date data, String filepath,
-                                 int anoReferencia, int mesReferencia) throws SQLException, FileNotFoundException {
+                                 int anoReferencia, int mesReferencia) throws SQLException {
         String query = "{call insere_Pagamento(?, ?, ?, ?, ?, ?)}";
         CallableStatement callableStatement = connection.prepareCall(query);
 
